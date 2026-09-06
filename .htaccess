@@ -1,21 +1,18 @@
 <IfModule mod_mime.c>
   AddType application/javascript .js .mjs
   AddType text/css .css
+  AddType image/svg+xml .svg
 </IfModule>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Serve dist directly if request is for root
-  RewriteRule ^$ dist/index.html [L]
-
-  # Route assets from dist
-  RewriteCond %{DOCUMENT_ROOT}/dist/$1 -f
-  RewriteRule ^(.*)$ dist/$1 [L]
-
-  # Fallback for SPA
+  # If dist folder exists, route to it
+  RewriteCond %{REQUEST_URI} !^/dist/
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . dist/index.html [L]
+  RewriteRule ^(.*)$ dist/$1 [L]
+
+  RewriteRule ^$ dist/index.html [L]
 </IfModule>
