@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import { createServer as createViteServer } from 'vite';
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // JWT Secret Key (from env or fallback)
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'prineor_super_secret_jwt_key_2026_secure';
