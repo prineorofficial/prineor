@@ -1,6 +1,6 @@
 node_modules/
 build/
-dist/
+# dist/ included for zero-config git hosting deployment
 coverage/
 .DS_Store
 *.log
