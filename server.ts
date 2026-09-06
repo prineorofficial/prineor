@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -1290,7 +1291,12 @@ app.get('/sitemap.xml', (req: Request, res: Response) => {
 // VITE MIDDLEWARE & STATIC SERVING
 // -------------------------------------------------------------
 async function start() {
-  const distPath = path.join(process.cwd(), 'dist');
+  const cwdDist = path.join(process.cwd(), 'dist');
+  const dirnameDist = typeof __dirname !== 'undefined' ? __dirname : cwdDist;
+  const distPath = fs.existsSync(path.join(cwdDist, 'index.html'))
+    ? cwdDist
+    : (fs.existsSync(path.join(dirnameDist, 'index.html')) ? dirnameDist : cwdDist);
+
   const hasDist = fs.existsSync(path.join(distPath, 'index.html'));
 
   if (hasDist || process.env.NODE_ENV === 'production') {
@@ -1306,8 +1312,12 @@ async function start() {
     app.use(vite.middlewares);
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Prineor Full-Stack Server running on port ${PORT}`);
+  });
+
+  server.on('error', (err: any) => {
+    console.error('Server listen error:', err);
   });
 }
 
