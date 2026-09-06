@@ -1,0 +1,64 @@
+[
+  {
+    "id": "msg_1788534765384_1j8rx",
+    "name": "Partner Audit User",
+    "email": "partner.audit@example.com",
+    "inquiryType": "Partnership",
+    "subject": "Partnership Inquiry",
+    "message": "Interested in partnering with Prineor for agency client delivery.",
+    "createdAt": "2026-09-04T15:12:45.384Z",
+    "date": "Sep 4, 2026",
+    "time": "03:12 PM",
+    "status": "New"
+  },
+  {
+    "id": "msg_1788534765381_ijjcs",
+    "name": "Audit Test User",
+    "email": "audit@example.com",
+    "inquiryType": "General Inquiry",
+    "subject": "General Inquiry Inquiry",
+    "message": "This is an audit test message verification.",
+    "createdAt": "2026-09-04T15:12:45.366Z",
+    "date": "Sep 4, 2026",
+    "time": "03:12 PM",
+    "status": "New"
+  },
+  {
+    "id": "msg_1788533357580_fnggg",
+    "name": "Sarah Jenkins",
+    "email": "sarah@enterprise-venture.co",
+    "inquiryType": "Partnership",
+    "subject": "Partnership Inquiry for Q4",
+    "message": "Hello Prineor team, We are exploring a strategic web design partnership for our Q4 platform launch.",
+    "createdAt": "2026-09-04T14:49:17.560Z",
+    "date": "Sep 4, 2026",
+    "time": "02:49 PM",
+    "status": "New"
+  },
+  {
+    "id": "msg_1787988936600_vuqy9",
+    "name": "Global Studio Partners",
+    "email": "partner@globalstudio.io",
+    "phone": "+1 800-432-8899",
+    "inquiryType": "Partnership",
+    "subject": "Agency Partnership with Prineor",
+    "message": "Organization / Brand: Global Studio\n\nWe are looking to partner with Prineor on full-stack web and AI client projects.",
+    "createdAt": "2026-08-29T07:35:36.586Z",
+    "date": "Aug 29, 2026",
+    "time": "07:35 AM",
+    "status": "New"
+  },
+  {
+    "id": "msg_1787988802406_cpsqt",
+    "name": "Apex Digital Agency",
+    "email": "contact@apexdigital.com",
+    "phone": "+1 555-908-1122",
+    "inquiryType": "Partnership",
+    "subject": "Global Design & Web Development Partnership",
+    "message": "Hi Dawood & Prineor team, We love your work and would like to establish an official design partnership for upcoming client projects.",
+    "createdAt": "2026-08-29T07:33:22.406Z",
+    "date": "Aug 29, 2026",
+    "time": "07:33 AM",
+    "status": "New"
+  }
+]

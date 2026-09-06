@@ -1,0 +1,9 @@
+{
+  "adminEmail": "dawoodmuzahir4@gmail.com",
+  "passwordHash": "$2b$12$JwJfT3qFIFgwVLN6.zH.fe7/RnXE8THDa2qVGtb7rY/vyq.I9jOIu",
+  "securityQuestion": "What was your first project or brand name?",
+  "securityAnswerHash": "$2b$10$LFMwl41zKLX9cCndCf97VOjK3X9H6BZ4Mj3v18T8Yqvb5qlL6AFCO",
+  "recoveryKeyHash": "$2b$10$1PFXuRaNOnsiys0eE1YbyuYN6JmF7nZaDDt0akmiMPp7uVJN8Rvtq",
+  "createdAt": "2026-08-29T07:06:24.281Z",
+  "updatedAt": "2026-08-29T07:27:30.636Z"
+}

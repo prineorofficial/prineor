@@ -1,0 +1,191 @@
+{
+  "brand": {
+    "name": "PRINEOR",
+    "tagline": "A Growing Digital Brand • Founded in 2026",
+    "badgeText": "STARTED IN 2026 • BUILDING & GROWING",
+    "shortBio": "Prineor started in 2026 and is currently growing through continuous learning, practical projects, experimentation, and improvement. We turn ideas into meaningful digital experiences through Web Development with WordPress, AI Development, Graphic Designing, Digital Marketing, and Social Media Services.",
+    "email": "prineorofficial@gmail.com",
+    "location": "Global / Digital",
+    "phone": "Phone — Coming Soon",
+    "youtubeUrl": "https://www.youtube.com/@Prineorofficial",
+    "tiktokUrl": "https://www.tiktok.com/@prineorofficial",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61591642935337&mibextid=ZbWKwL",
+    "instagramUrl": "https://www.instagram.com/prineorofficial?igsh=eGhvd3IxdGM3NzY=",
+    "initials": "P",
+    "roles": [
+      "Web & WordPress Development",
+      "AI Solutions",
+      "Graphic Design",
+      "Digital Marketing"
+    ]
+  },
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "WordPress Multi-Tier Business Portal",
+      "slug": "wordpress-multi-tier-business-portal",
+      "category": "WordPress Development",
+      "subtitle": "Enterprise corporate presence with custom Gutenberg architecture",
+      "shortDescription": "Modern corporate portal built on custom WordPress Gutenberg architecture with blazing fast speeds and modular layouts.",
+      "tags": [
+        "WordPress",
+        "PHP",
+        "Tailwind",
+        "SEO"
+      ],
+      "status": "Completed",
+      "visibility": "Published",
+      "isPublished": true,
+      "featured": true
+    },
+    {
+      "id": "proj-2",
+      "title": "Crystal AI Intelligence Engine",
+      "slug": "crystal-ai-intelligence-engine",
+      "category": "AI Development",
+      "subtitle": "Next-generation Gemini AI assisted interface with streaming responses",
+      "shortDescription": "AI-assisted web solution leveraging Google Gemini models to deliver real-time intelligent workflow automation.",
+      "tags": [
+        "AI Development",
+        "Gemini API",
+        "React",
+        "Node.js"
+      ],
+      "status": "Completed",
+      "visibility": "Published",
+      "isPublished": true,
+      "featured": true
+    },
+    {
+      "id": "proj-3",
+      "title": "Luxe Glassmorphism Brand Identity & System",
+      "slug": "luxe-brand-identity-system",
+      "category": "Graphic Design",
+      "subtitle": "Comprehensive visual design language with radiant gold accents",
+      "shortDescription": "Comprehensive design system featuring ultra-refined glassmorphism, gold accents, and fluid typographic hierarchies.",
+      "tags": [
+        "Graphic Design",
+        "Brand Identity",
+        "UI/UX",
+        "Figma"
+      ],
+      "status": "Completed",
+      "visibility": "Published",
+      "isPublished": true,
+      "featured": true
+    }
+  ],
+  "services": [
+    {
+      "id": "serv-1",
+      "title": "WordPress Web Development",
+      "slug": "wordpress-web-development",
+      "category": "Development",
+      "shortDescription": "Custom, blazing fast, and responsive WordPress websites tailored to your brand identity.",
+      "order": 1
+    },
+    {
+      "id": "serv-2",
+      "title": "AI Development & Solutions",
+      "slug": "ai-development-solutions",
+      "category": "AI & Automation",
+      "shortDescription": "Smart AI integrations, conversational interfaces, and intelligent workflow automations.",
+      "order": 2
+    },
+    {
+      "id": "serv-3",
+      "title": "Graphic Designing & Brand Identity",
+      "slug": "graphic-design-brand-identity",
+      "category": "Design",
+      "shortDescription": "Premium visual design, modern logo monograms, social graphics, and design systems.",
+      "order": 3
+    },
+    {
+      "id": "serv-4",
+      "title": "Digital Marketing & Social Media",
+      "slug": "digital-marketing-social-media",
+      "category": "Marketing",
+      "shortDescription": "Strategic social media growth, YouTube learning content, audience engagement, and SEO.",
+      "order": 4
+    }
+  ],
+  "blog": [
+    {
+      "id": "post-1",
+      "title": "Building Prineor in 2026: The Power of Continuous Learning",
+      "slug": "building-prineor-in-2026",
+      "category": "Brand Journey",
+      "excerpt": "How we approach daily experimentation, honest craftsmanship, and building digital value from the ground up in 2026.",
+      "date": "2026-08-25",
+      "readTime": "4 min read",
+      "author": "Prineor Founders",
+      "status": "Published",
+      "isPublished": true
+    },
+    {
+      "id": "post-2",
+      "title": "Why Custom WordPress Architecture Beats Page Builders in 2026",
+      "slug": "custom-wordpress-vs-page-builders",
+      "category": "WordPress Development",
+      "excerpt": "Exploring the performance, security, and developer experience advantages of lightweight custom block development.",
+      "date": "2026-08-20",
+      "readTime": "6 min read",
+      "author": "Prineor Founders",
+      "status": "Published",
+      "isPublished": true
+    },
+    {
+      "id": "post-3",
+      "title": "Practical AI Integrations: Turning LLM APIs into Real Client Value",
+      "slug": "practical-ai-integrations-for-clients",
+      "category": "AI Development",
+      "excerpt": "Moving beyond chat stubs: how to build genuinely useful AI applications with grounded context and reliable workflows.",
+      "date": "2026-08-15",
+      "readTime": "5 min read",
+      "author": "Prineor Founders",
+      "status": "Published",
+      "isPublished": true
+    }
+  ],
+  "socials": [
+    {
+      "platform": "YouTube",
+      "handle": "@Prineorofficial",
+      "url": "https://www.youtube.com/@Prineorofficial",
+      "isEnabled": true
+    },
+    {
+      "platform": "TikTok",
+      "handle": "@prineorofficial",
+      "url": "https://www.tiktok.com/@prineorofficial",
+      "isEnabled": true
+    },
+    {
+      "platform": "Instagram",
+      "handle": "@prineorofficial",
+      "url": "https://www.instagram.com/prineorofficial?igsh=eGhvd3IxdGM3NzY=",
+      "isEnabled": true
+    },
+    {
+      "platform": "Facebook",
+      "handle": "Prineor",
+      "url": "https://www.facebook.com/profile.php?id=61591642935337&mibextid=ZbWKwL",
+      "isEnabled": true
+    },
+    {
+      "platform": "Email",
+      "handle": "prineorofficial@gmail.com",
+      "url": "mailto:prineorofficial@gmail.com",
+      "isEnabled": true
+    }
+  ],
+  "settings": {
+    "siteName": "PRINEOR",
+    "siteTitle": "PRINEOR — Digital Brand • WordPress, AI, Design & Marketing",
+    "siteDescription": "Prineor is a growing digital brand founded in 2026. Turning ideas into meaningful digital experiences through WordPress Web Development, AI Development, Graphic Design, and Digital Marketing.",
+    "siteUrl": "https://prineor.com",
+    "canonicalUrl": "https://prineor.com",
+    "defaultAuthor": "Prineor Founders",
+    "robots": "index, follow"
+  }
+}
