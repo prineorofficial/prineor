@@ -1,18 +1,29 @@
+DirectoryIndex dist/index.html index.html
+
 <IfModule mod_mime.c>
   AddType application/javascript .js .mjs
   AddType text/css .css
   AddType image/svg+xml .svg
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
 </IfModule>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # If dist folder exists, route to it
-  RewriteCond %{REQUEST_URI} !^/dist/
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # 1. Route assets to dist/assets
+  RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
+
+  # 2. Route files that exist inside dist/
+  RewriteCond %{DOCUMENT_ROOT}/dist/$1 -f
   RewriteRule ^(.*)$ dist/$1 [L]
 
+  # 3. Direct root request to dist/index.html
   RewriteRule ^$ dist/index.html [L]
+
+  # 4. SPA routing fallback: redirect all unknown routes to dist/index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ dist/index.html [L]
 </IfModule>
