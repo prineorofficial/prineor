@@ -31,6 +31,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBackToSite 
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
+        credentials: 'include',
         headers: { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -56,12 +57,16 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBackToSite 
       }
 
       if (data.token) {
-        sessionStorage.setItem('prineor_admin_jwt', data.token);
-        localStorage.setItem('prineor_admin_jwt', data.token);
+        try {
+          sessionStorage.setItem('prineor_admin_jwt', data.token);
+          localStorage.setItem('prineor_admin_jwt', data.token);
+        } catch {
+          // ignore storage access errors
+        }
       }
 
       // Update CMS auth state
-      login(data.adminEmail || email.trim(), data.token);
+      login(data.adminEmail || email.trim(), data.token || '');
       onSuccess();
     } catch (err: any) {
       setError(err.message || 'Invalid email or password. Email and password do not match.');

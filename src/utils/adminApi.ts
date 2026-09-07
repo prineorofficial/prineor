@@ -35,3 +35,15 @@ export function getAdminAuthHeaders(extraHeaders: Record<string, string> = {}): 
   }
   return headers;
 }
+
+export function adminFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
+  const headers = getAdminAuthHeaders(
+    (init.headers as Record<string, string>) || {}
+  );
+
+  return fetch(input, {
+    ...init,
+    credentials: 'include',
+    headers,
+  });
+}

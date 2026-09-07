@@ -335,7 +335,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     const fetchServerCMS = async () => {
       try {
-        const res = await fetch('/api/cms/data');
+        const res = await fetch('/api/cms/data', { credentials: 'include' });
         if (res.ok) {
           const serverData = await res.json();
           if (serverData && typeof serverData === 'object') {
@@ -363,13 +363,25 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setAuthLoading(true);
       const token = sessionStorage.getItem(JWT_KEY) || localStorage.getItem(JWT_KEY);
       const res = await fetch('/api/auth/status', {
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+        credentials: 'include',
+        headers: token ? { 'Authorization': `Bearer ${token}`, 'x-admin-token': token } : {},
       });
       if (res.ok) {
         const data = await res.json();
         setIsSetup(data.isSetup !== false);
-        setIsAuthenticated(Boolean(data.isAuthenticated));
+        const isAuth = Boolean(data.isAuthenticated);
+        setIsAuthenticated(isAuth);
         setAdminEmail(data.adminEmail || null);
+
+        // Auto-sync token if returned or refreshed by the server
+        if (isAuth && data.token) {
+          try {
+            sessionStorage.setItem(JWT_KEY, data.token);
+            localStorage.setItem(JWT_KEY, data.token);
+          } catch {
+            // ignore
+          }
+        }
       } else {
         setIsSetup(true);
         setIsAuthenticated(false);
@@ -377,7 +389,11 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {
       console.error('Failed to query auth status:', e);
       setIsSetup(true);
-      setIsAuthenticated(false);
+      // Fallback: if network had a blip, don't kick out if we had a valid local token
+      const localToken = sessionStorage.getItem(JWT_KEY) || localStorage.getItem(JWT_KEY);
+      if (!localToken) {
+        setIsAuthenticated(false);
+      }
     } finally {
       setAuthLoading(false);
     }
@@ -403,9 +419,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const token = sessionStorage.getItem(JWT_KEY) || localStorage.getItem(JWT_KEY);
       const res = await fetch('/api/cms/data', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          ...(token ? { 'Authorization': `Bearer ${token}`, 'x-admin-token': token } : {})
         },
         body: JSON.stringify(payload)
       });
@@ -425,8 +442,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsSetup(true);
     setAdminEmail(email);
     try {
-      sessionStorage.setItem(JWT_KEY, token);
-      localStorage.setItem(JWT_KEY, token);
+      if (token) {
+        sessionStorage.setItem(JWT_KEY, token);
+        localStorage.setItem(JWT_KEY, token);
+      }
     } catch {
       // ignore
     }
@@ -434,7 +453,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch('/api/auth/logout', { 
+        method: 'POST',
+        credentials: 'include' 
+      });
     } catch (e) {
       console.error('Logout error:', e);
     }

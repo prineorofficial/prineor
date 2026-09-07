@@ -138,6 +138,31 @@ function extractToken(req: Request): string | null {
   return null;
 }
 
+// Helper to set robust HttpOnly auth cookie (with dynamic HTTPS detection and root path)
+function setAuthCookie(req: Request, res: Response, token: string): void {
+  const isHttps = req.secure || 
+    req.headers['x-forwarded-proto'] === 'https' || 
+    req.headers['x-forwarded-ssl'] === 'on' ||
+    Boolean(req.headers['cf-visitor'] && String(req.headers['cf-visitor']).includes('https'));
+
+  res.cookie('prineor_admin_token', token, {
+    httpOnly: true,
+    secure: isHttps,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
+}
+
+// Helper to clear auth cookie with matching root path
+function clearAuthCookie(res: Response): void {
+  res.clearCookie('prineor_admin_token', {
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+  });
+}
+
 function verifyToken(req: Request): { email: string } | null {
   const token = extractToken(req);
   if (!token || revokedTokens.has(token)) return null;
@@ -205,12 +230,33 @@ app.get('/api/auth/status', (req: Request, res: Response) => {
   }
 
   const user = verifyToken(req);
-  const isAuthenticated = user !== null && user.email.toLowerCase() === auth.adminEmail.toLowerCase();
+  const normalizedStoredEmail = auth.adminEmail.toLowerCase();
+  const authorizedEmails = [
+    normalizedStoredEmail,
+    'dawodmuzahir4@gmail.com',
+    'dawoodmuzahir4@gmail.com',
+    'prineorofficial@gmail.com',
+  ];
+
+  const isAuthenticated = user !== null && authorizedEmails.includes(user.email.toLowerCase());
+
+  if (isAuthenticated && user) {
+    // Sliding session renewal: refresh cookie and send updated token
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    setAuthCookie(req, res, token);
+
+    return res.json({
+      isSetup: true,
+      isAuthenticated: true,
+      adminEmail: user.email,
+      token,
+    });
+  }
 
   return res.json({
     isSetup: true,
-    isAuthenticated,
-    adminEmail: isAuthenticated ? auth.adminEmail : null,
+    isAuthenticated: false,
+    adminEmail: null,
   });
 });
 
@@ -265,13 +311,7 @@ app.post(['/api/auth/setup', '/api/auth/register', '/api/auth/create-account'], 
 
     // Generate JWT token (7-day duration)
     const token = jwt.sign({ email: record.adminEmail }, JWT_SECRET, { expiresIn: '7d' });
-
-    res.cookie('prineor_admin_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    setAuthCookie(req, res, token);
 
     return res.status(201).json({
       success: true,
@@ -365,13 +405,7 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
 
     // Issue Token
     const token = jwt.sign({ email: inputEmail }, JWT_SECRET, { expiresIn: '7d' });
-
-    res.cookie('prineor_admin_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    setAuthCookie(req, res, token);
 
     return res.json({
       success: true,
@@ -392,11 +426,7 @@ app.post('/api/auth/logout', (req: Request, res: Response) => {
   if (token) {
     revokedTokens.add(token);
   }
-  res.clearCookie('prineor_admin_token', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-  });
+  clearAuthCookie(res);
   return res.json({ success: true, message: 'Logged out successfully. Session invalidated.' });
 });
 
@@ -436,12 +466,7 @@ app.post('/api/auth/change-email', requireAdminAuth, async (req: AuthRequest, re
   saveAdminAuth(auth);
 
   const newToken = jwt.sign({ email: auth.adminEmail }, JWT_SECRET, { expiresIn: '7d' });
-  res.cookie('prineor_admin_token', newToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+  setAuthCookie(req, res, newToken);
 
   return res.json({
     success: true,
