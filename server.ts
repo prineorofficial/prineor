@@ -49,8 +49,8 @@ function getAdminAuth(): AdminAuthRecord | null {
 
     // Initialize permanent primary admin record if not yet created on disk
     const defaultAuth: AdminAuthRecord = {
-      adminEmail: 'dawodmuzahir4@gmail.com',
-      passwordHash: bcrypt.hashSync('PrineorAdmin2026!', 12),
+      adminEmail: 'dawoodmuzahir4@gmail.com',
+      passwordHash: bcrypt.hashSync('Prineor@-admin', 12),
       securityQuestion: 'What was your first project or brand name?',
       securityAnswerHash: bcrypt.hashSync('prineor', 10),
       recoveryKeyHash: bcrypt.hashSync('PRN-PRIN-EOR2-026X', 10),
