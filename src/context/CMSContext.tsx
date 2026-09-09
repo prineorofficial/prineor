@@ -326,10 +326,23 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return defaultCMSData;
   });
 
-  const [isSetup, setIsSetup] = useState<boolean | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [adminEmail, setAdminEmail] = useState<string | null>(null);
-  const [authLoading, setAuthLoading] = useState<boolean>(true);
+  const [isSetup, setIsSetup] = useState<boolean | null>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      const token = sessionStorage.getItem(JWT_KEY) || localStorage.getItem(JWT_KEY);
+      return Boolean(token && token.trim().length > 10);
+    } catch {
+      return false;
+    }
+  });
+  const [adminEmail, setAdminEmail] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('prineor_admin_email') || null;
+    } catch {
+      return null;
+    }
+  });
+  const [authLoading, setAuthLoading] = useState<boolean>(false);
 
   // Sync with server on initial mount
   useEffect(() => {
@@ -360,7 +373,6 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Check auth and setup status on server
   const checkAuthStatus = useCallback(async () => {
     try {
-      setAuthLoading(true);
       const token = sessionStorage.getItem(JWT_KEY) || localStorage.getItem(JWT_KEY);
       const res = await fetch('/api/auth/status', {
         credentials: 'include',
@@ -370,21 +382,30 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const data = await res.json();
         setIsSetup(data.isSetup !== false);
         const isAuth = Boolean(data.isAuthenticated);
-        setIsAuthenticated(isAuth);
-        setAdminEmail(data.adminEmail || null);
+        if (isAuth) {
+          setIsAuthenticated(true);
+          setAdminEmail(data.adminEmail || null);
 
-        // Auto-sync token if returned or refreshed by the server
-        if (isAuth && data.token) {
-          try {
-            sessionStorage.setItem(JWT_KEY, data.token);
-            localStorage.setItem(JWT_KEY, data.token);
-          } catch {
-            // ignore
+          // Auto-sync token if returned or refreshed by the server
+          if (data.token) {
+            try {
+              sessionStorage.setItem(JWT_KEY, data.token);
+              localStorage.setItem(JWT_KEY, data.token);
+            } catch {
+              // ignore
+            }
+          }
+        } else {
+          // Only clear authenticated state if there is no client-side stored token
+          if (!token) {
+            setIsAuthenticated(false);
           }
         }
       } else {
         setIsSetup(true);
-        setIsAuthenticated(false);
+        if (!token) {
+          setIsAuthenticated(false);
+        }
       }
     } catch (e) {
       console.error('Failed to query auth status:', e);
@@ -446,6 +467,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         sessionStorage.setItem(JWT_KEY, token);
         localStorage.setItem(JWT_KEY, token);
       }
+      if (email) {
+        localStorage.setItem('prineor_admin_email', email);
+      }
     } catch {
       // ignore
     }
@@ -465,6 +489,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       sessionStorage.removeItem(JWT_KEY);
       localStorage.removeItem(JWT_KEY);
+      localStorage.removeItem('prineor_admin_email');
     } catch {
       // ignore
     }

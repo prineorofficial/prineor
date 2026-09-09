@@ -2,10 +2,10 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { PageTab, PersonalBrandConfig, ProjectCaseStudy, BlogPost } from './types';
 import { CMSProvider, useCMS } from './context/CMSContext';
 
-// Lazy-load Admin Components (Ensures public visitors never download Admin code)
-const AdminSetup = lazy(() => import('./components/admin/AdminSetup').then(m => ({ default: m.AdminSetup })));
-const AdminLogin = lazy(() => import('./components/admin/AdminLogin').then(m => ({ default: m.AdminLogin })));
-const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
+// Admin Components (Static Import for Instant Transition & Zero Chunk-Load Failures)
+import { AdminSetup } from './components/admin/AdminSetup';
+import { AdminLogin } from './components/admin/AdminLogin';
+import { AdminDashboard } from './components/admin/AdminDashboard';
 
 // Reusable / Shared Core Public Components
 import { CustomCursor } from './components/CustomCursor';
@@ -59,7 +59,7 @@ function AppContent() {
   const { cmsData, updateBrand, isAuthenticated, isSetup, authLoading, checkAuthStatus } = useCMS();
   const [activeTab, setActiveTab] = useState<PageTab>('home');
   const [isAdminView, setIsAdminView] = useState<boolean>(() => {
-    return window.location.pathname.startsWith('/admin');
+    return window.location.pathname.startsWith('/admin') || window.location.hash.toLowerCase().includes('admin');
   });
 
   const [selectedProject, setSelectedProject] = useState<ProjectCaseStudy | null>(null);
@@ -71,7 +71,7 @@ function AppContent() {
   // Sync with browser URL / history & direct slugs
   useEffect(() => {
     const handleLocationChange = () => {
-      const isPathAdmin = window.location.pathname.startsWith('/admin');
+      const isPathAdmin = window.location.pathname.startsWith('/admin') || window.location.hash.toLowerCase().includes('admin');
       setIsAdminView(isPathAdmin);
 
       const path = window.location.pathname;
@@ -181,38 +181,32 @@ function AppContent() {
     // 1. FIRST TIME SETUP ONLY (Genuinely no admin account in database)
     if (isSetup === false) {
       return (
-        <Suspense fallback={<SectionLoader />}>
-          <AdminSetup
-            onSuccess={() => {
-              checkAuthStatus();
-              window.history.pushState({}, '', '/admin/dashboard');
-            }}
-            onBackToSite={navigateToPublic}
-          />
-        </Suspense>
+        <AdminSetup
+          onSuccess={() => {
+            setIsAdminView(true);
+            window.history.pushState({}, '', '/admin/dashboard');
+          }}
+          onBackToSite={navigateToPublic}
+        />
       );
     }
 
     // 2. UN-AUTHENTICATED ADMIN LOGIN (Normal entry screen every time authentication is needed)
     if (!isAuthenticated) {
       return (
-        <Suspense fallback={<SectionLoader />}>
-          <AdminLogin
-            onSuccess={() => {
-              checkAuthStatus();
-              window.history.pushState({}, '', '/admin/dashboard');
-            }}
-            onBackToSite={navigateToPublic}
-          />
-        </Suspense>
+        <AdminLogin
+          onSuccess={() => {
+            setIsAdminView(true);
+            window.history.pushState({}, '', '/admin/dashboard');
+          }}
+          onBackToSite={navigateToPublic}
+        />
       );
     }
 
     // 3. AUTHENTICATED ADMIN DASHBOARD
     return (
-      <Suspense fallback={<SectionLoader />}>
-        <AdminDashboard onExitAdmin={navigateToPublic} />
-      </Suspense>
+      <AdminDashboard onExitAdmin={navigateToPublic} />
     );
   }
 
