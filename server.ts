@@ -1459,6 +1459,25 @@ async function start() {
   const cwdDist = path.join(process.cwd(), 'dist');
   const distPath = cwdDist;
 
+  // Guaranteed Founder Portrait Serving: Always serve exact founders photo for any hero portrait URL
+  const handleFounderPhoto = (_req: Request, res: Response) => {
+    const heroPath = path.join(process.cwd(), 'public', 'hero_founders.jpg');
+    if (fs.existsSync(heroPath)) {
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
+      return res.sendFile(heroPath);
+    }
+    return res.status(404).send('Not found');
+  };
+
+  app.get('/hero_founders.jpg', handleFounderPhoto);
+  app.get('/hero_founders.webp', handleFounderPhoto);
+  app.get('/hero_crystal_portrait.webp', handleFounderPhoto);
+  app.get('/images/hero_founders.jpg', handleFounderPhoto);
+  app.get('/images/hero_founders.webp', handleFounderPhoto);
+  app.get('/images/hero_crystal_portrait.webp', handleFounderPhoto);
+  app.get('/assets/hero_crystal_portrait:slug(*)', handleFounderPhoto);
+
   // Serve public static assets (images, favicon, etc.)
   app.use(express.static(path.join(process.cwd(), 'public')));
   app.use('/images', express.static(path.join(process.cwd(), 'public/images')));

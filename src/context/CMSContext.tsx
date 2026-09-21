@@ -36,8 +36,19 @@ import {
   ASSETS 
 } from '../data/portfolioData';
 
-const STORAGE_KEY = 'prineor_cms_master_data_v1';
+const STORAGE_KEY = 'prineor_cms_master_data_v2';
 const JWT_KEY = 'prineor_admin_jwt';
+
+const isStaleOrInvalidImage = (url?: string) => {
+  if (!url) return true;
+  return (
+    url.includes('HmOcyRT0') || 
+    url.includes('1787639780033') || 
+    url.includes('prineor_founders_hero_1789986383215') || 
+    url.includes('unsplash') || 
+    url.includes('photo-1534528741775')
+  );
+};
 
 export const initialHeroConfig: HeroConfig = {
   badgeText: 'STARTED IN 2026 • BUILDING & GROWING',
@@ -302,14 +313,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           hero: { 
             ...defaultCMSData.hero, 
             ...(parsed.hero || {}),
-            heroImage: (parsed.hero?.heroImage && !parsed.hero.heroImage.includes('unsplash') && !parsed.hero.heroImage.includes('photo-1534528741775'))
+            heroImage: (parsed.hero?.heroImage && !isStaleOrInvalidImage(parsed.hero.heroImage))
               ? parsed.hero.heroImage
               : defaultCMSData.hero.heroImage
           },
           brand: { 
             ...defaultCMSData.brand, 
             ...(parsed.brand || {}),
-            portraitImage: (parsed.brand?.portraitImage && !parsed.brand.portraitImage.includes('unsplash') && !parsed.brand.portraitImage.includes('photo-1534528741775'))
+            portraitImage: (parsed.brand?.portraitImage && !isStaleOrInvalidImage(parsed.brand.portraitImage))
               ? parsed.brand.portraitImage
               : defaultCMSData.brand.portraitImage
           },
