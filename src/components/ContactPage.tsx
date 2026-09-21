@@ -37,7 +37,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   const brand = propBrand || cmsData.brand;
   const contact = cmsData.contact || {
     email: brand.email || 'prineorofficial@gmail.com',
-    phone: brand.phone || 'Phone — Coming Soon',
+    phone: brand.phone || '+92 371 5362561',
     location: brand.location || 'Global / Digital',
     availability: brand.availability || 'Open for Partnerships & Projects',
     faqs: []
@@ -253,16 +253,30 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                 </div>
               </a>
 
-              <div className="glass-pill p-3.5 rounded-2xl flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-[#A87915] border border-amber-200/60 flex-shrink-0">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-[#94A3B8] tracking-wider block">Direct Line</span>
-                  <span className="text-xs sm:text-sm font-semibold text-[#0F172A]">
-                    {contact.phone || (brand.phone ? brand.phone : 'Phone — Coming Soon')}
-                  </span>
-                </div>
+              <div className="glass-pill p-3.5 rounded-2xl flex items-center justify-between gap-3 hover:bg-white hover:border-[#D49E24]/50 transition-all group">
+                <a 
+                  href={`tel:${(contact.phone || brand.phone || '03715362561').replace(/\s+/g, '')}`}
+                  className="flex items-center gap-3 flex-1 min-w-0"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-[#A87915] border border-amber-200/60 flex-shrink-0 group-hover:bg-[#D49E24] group-hover:text-white transition-colors">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div className="truncate">
+                    <span className="text-[10px] uppercase font-bold text-[#94A3B8] tracking-wider block">Direct Line / Call</span>
+                    <span className="text-xs sm:text-sm font-semibold text-[#0F172A] group-hover:text-[#A87915] block truncate">
+                      {contact.phone || brand.phone || '+92 371 5362561'}
+                    </span>
+                  </div>
+                </a>
+                <a
+                  href="https://wa.me/923715362561?text=Hello%20Prineor%2C%20I%20would%20like%20to%20discuss%20a%20project."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-2.5 py-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/60 rounded-lg transition-colors flex-shrink-0"
+                  title="Chat on WhatsApp"
+                >
+                  WhatsApp
+                </a>
               </div>
 
               <div className="glass-pill p-3.5 rounded-2xl flex items-center gap-3">

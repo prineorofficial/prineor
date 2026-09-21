@@ -1208,6 +1208,7 @@ export const SettingsSectionAdmin: React.FC = () => {
                 type="text"
                 value={form.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
+                placeholder="+92 371 5362561"
                 className="w-full px-3.5 py-2.5 rounded-xl glass-pill bg-slate-50 border border-slate-200 text-xs text-[#0F172A]"
               />
             </div>

@@ -691,8 +691,79 @@ app.post('/api/cms/data', requireAdminAuth, (req: AuthRequest, res: Response) =>
 });
 
 // -------------------------------------------------------------
-// 10B. DEDICATED BLOG POSTS REST API
+// UPLOAD ORIGINAL HERO IMAGE (100% Exact Byte-for-Byte Fidelity)
 // -------------------------------------------------------------
+app.post('/api/upload-hero-image', (req: Request, res: Response) => {
+  try {
+    const { imageBase64, fileName } = req.body || {};
+    if (!imageBase64 || typeof imageBase64 !== 'string') {
+      return res.status(400).json({ error: 'Please provide valid image data.' });
+    }
+
+    let base64Clean = imageBase64;
+    if (base64Clean.includes('base64,')) {
+      base64Clean = base64Clean.split('base64,')[1];
+    }
+    const buffer = Buffer.from(base64Clean, 'base64');
+    if (buffer.length < 100) {
+      return res.status(400).json({ error: 'Image file is empty or corrupted.' });
+    }
+
+    const timestamp = Date.now();
+
+    // Write exact byte-for-byte original file without ANY alteration to all serving locations
+    const targets = [
+      path.join(process.cwd(), 'public', 'hero_founders.jpg'),
+      path.join(process.cwd(), 'public', 'hero_founders.webp'),
+      path.join(process.cwd(), 'public', 'hero_crystal_portrait.webp'),
+      path.join(process.cwd(), 'public', 'images', 'hero_founders.jpg'),
+      path.join(process.cwd(), 'public', 'images', 'hero_founders.webp'),
+      path.join(process.cwd(), 'src', 'assets', 'images', 'hero_crystal_portrait.webp'),
+      path.join(process.cwd(), 'src', 'assets', 'images', 'hero_founders.webp'),
+      path.join(process.cwd(), 'dist', 'hero_founders.jpg'),
+      path.join(process.cwd(), 'dist', 'hero_founders.webp'),
+      path.join(process.cwd(), 'dist', 'images', 'hero_founders.jpg'),
+      path.join(process.cwd(), 'dist', 'images', 'hero_founders.webp'),
+    ];
+
+    for (const targetPath of targets) {
+      try {
+        const dir = path.dirname(targetPath);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(targetPath, buffer);
+      } catch {
+        // ignore individual write failures
+      }
+    }
+
+    // Also update data/cms-data.json
+    try {
+      const cms = getCMSDataFromFile();
+      if (cms) {
+        if (!cms.hero) cms.hero = {};
+        if (!cms.brand) cms.brand = {};
+        if (!cms.about) cms.about = {};
+        const url = `/hero_founders.jpg?v=${timestamp}`;
+        cms.hero.heroImage = url;
+        cms.brand.portraitImage = url;
+        cms.about.portraitImage = url;
+        saveCMSDataToFile(cms);
+      }
+    } catch (cmsErr) {
+      console.error('Error updating CMS data for hero image:', cmsErr);
+    }
+
+    return res.json({
+      success: true,
+      url: `/hero_founders.jpg?v=${timestamp}`,
+      message: 'Original image applied with 100% exact fidelity.'
+    });
+  } catch (err: any) {
+    console.error('Upload hero image error:', err);
+    return res.status(500).json({ error: err?.message || 'Failed to process image upload.' });
+  }
+});
+
 
 // Public: Get all published blog posts (or all for admin)
 app.get('/api/blog/posts', (req: Request, res: Response) => {
@@ -1271,12 +1342,15 @@ app.delete('/api/admin/applications/:id', requireAdminAuth, (req: AuthRequest, r
 // -------------------------------------------------------------
 
 function getProductionBaseUrl(req: Request): string {
-  if (process.env.APP_URL && !process.env.APP_URL.includes('MY_APP_URL')) {
+  if (process.env.APP_URL && !process.env.APP_URL.includes('MY_APP_URL') && !process.env.APP_URL.includes('localhost')) {
     return process.env.APP_URL.replace(/\/+$/, '');
   }
-  const host = (req.headers['x-forwarded-host'] as string) || req.headers.host || 'prineor.com';
-  const protocol = (req.headers['x-forwarded-proto'] as string) || (req.secure ? 'https' : 'http');
-  return `${protocol}://${host}`;
+  const host = (req.headers['x-forwarded-host'] as string) || req.headers.host;
+  if (host && host.includes('prineor.com')) {
+    const protocol = (req.headers['x-forwarded-proto'] as string) || (req.secure ? 'https' : 'http');
+    return `${protocol}://${host}`;
+  }
+  return 'https://prineor.com';
 }
 
 app.get('/robots.txt', (req: Request, res: Response) => {
@@ -1383,24 +1457,23 @@ app.get('/sitemap.xml', (req: Request, res: Response) => {
 // -------------------------------------------------------------
 async function start() {
   const cwdDist = path.join(process.cwd(), 'dist');
-  const dirnameDist = typeof __dirname !== 'undefined' ? __dirname : cwdDist;
-  const distPath = fs.existsSync(path.join(cwdDist, 'index.html'))
-    ? cwdDist
-    : (fs.existsSync(path.join(dirnameDist, 'index.html')) ? dirnameDist : cwdDist);
+  const distPath = cwdDist;
 
-  const hasDist = fs.existsSync(path.join(distPath, 'index.html'));
+  // Serve public static assets (images, favicon, etc.)
+  app.use(express.static(path.join(process.cwd(), 'public')));
+  app.use('/images', express.static(path.join(process.cwd(), 'public/images')));
 
-  if (hasDist || process.env.NODE_ENV === 'production') {
-    app.use(express.static(distPath));
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
-  } else {
+  if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
+  } else {
+    app.use(express.static(distPath));
+    app.get('*', (_req: Request, res: Response) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
   }
 
   const server = app.listen(PORT, '0.0.0.0', () => {

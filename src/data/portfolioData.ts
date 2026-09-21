@@ -43,7 +43,7 @@ export const defaultBrandConfig: PersonalBrandConfig = {
   shortBio: 'Prineor started in 2026 and is currently growing through continuous learning, practical projects, experimentation, and improvement. We turn ideas into meaningful digital experiences through Web Development with WordPress, AI Development, Graphic Designing, Digital Marketing, and Social Media Services.',
   fullBio: 'We are Prineor. We are the owners and founders of Prineor. Prineor started in 2026 and is currently growing through continuous learning, practical projects, experimentation, and improvement. We are somewhat experienced through our projects and practical work, but we are still learning, improving, and building every single day.',
   email: 'prineorofficial@gmail.com',
-  phone: 'Phone — Coming Soon',
+  phone: '+92 371 5362561',
   location: 'Global / Digital',
   availability: 'Open for Partnerships & Projects',
   philosophy: 'Prineor is not just a portfolio. It is a brand we are building. Every project is an opportunity to learn, improve, experiment, and create real, practical value for people and businesses.',

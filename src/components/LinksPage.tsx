@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PageTab, PersonalBrandConfig } from '../types';
 import { useCMS } from '../context/CMSContext';
-import { Sparkles, ArrowUpRight, Copy, Check, Mail } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Copy, Check, Mail, Phone } from 'lucide-react';
 
 interface LinksPageProps {
   brand?: PersonalBrandConfig;
@@ -131,21 +131,39 @@ export const LinksPage: React.FC<LinksPageProps> = ({
       </div>
 
       {/* Direct Contact Glass Strip */}
-      <div className="glass-panel rounded-2xl p-5 border border-white/90 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Mail className="w-5 h-5 text-[#D49E24]" />
+      <div className="glass-panel rounded-2xl p-5 border border-white/90 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3 text-left w-full sm:w-auto">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-[#A87915] border border-amber-200/60 flex-shrink-0">
+            <Phone className="w-5 h-5" />
+          </div>
           <div>
-            <span className="text-xs font-semibold text-[#0F172A] block">{brand.email}</span>
-            {brand.phone && <span className="text-[11px] text-[#64748B]">{brand.phone}</span>}
+            <span className="text-xs font-semibold text-[#0F172A] block">{brand.phone || '+92 371 5362561'}</span>
+            <span className="text-[11px] text-[#64748B] block">{brand.email || 'prineorofficial@gmail.com'}</span>
           </div>
         </div>
 
-        <a
-          href={`mailto:${brand.email}`}
-          className="px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold hover:bg-[#D49E24] hover:text-[#0F172A] transition-colors"
-        >
-          Email Us
-        </a>
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <a
+            href={`tel:${(brand.phone || '03715362561').replace(/\s+/g, '')}`}
+            className="px-3.5 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold hover:bg-[#D49E24] hover:text-[#0F172A] transition-colors"
+          >
+            Call
+          </a>
+          <a
+            href="https://wa.me/923715362561?text=Hello%20Prineor%2C%20I%20would%20like%20to%20discuss%20a%20project."
+            target="_blank"
+            rel="noreferrer"
+            className="px-3.5 py-1.5 rounded-full bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition-colors"
+          >
+            WhatsApp
+          </a>
+          <a
+            href={`mailto:${brand.email || 'prineorofficial@gmail.com'}`}
+            className="px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors"
+          >
+            Email
+          </a>
+        </div>
       </div>
 
     </div>

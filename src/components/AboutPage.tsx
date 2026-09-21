@@ -2,6 +2,7 @@ import React from 'react';
 import { PageTab, PersonalBrandConfig } from '../types';
 import { useCMS } from '../context/CMSContext';
 import { Sparkles, Target, Compass, Handshake, ShieldCheck } from 'lucide-react';
+import heroPortraitWebp from '../assets/images/hero_crystal_portrait.webp';
 
 interface AboutPageProps {
   brand?: PersonalBrandConfig;
@@ -55,12 +56,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           <div className="relative w-full max-w-[400px] aspect-[4/5] rounded-[32px] p-2.5 crystal-glow">
             <div className="w-full h-full rounded-[26px] overflow-hidden relative glass-panel-elevated border border-white/90 shadow-[0_20px_50px_rgba(212,158,36,0.12)]">
               <img
-                src={about.portraitImage || (brand as any).portraitImage || (brand as any).heroImage || '/src/assets/images/hero_crystal_portrait_1787639780033.jpg'}
-                alt={brand.name || 'Prineor'}
+                id="about-founders-portrait"
+                src={about.portraitImage && !about.portraitImage.includes('unsplash') ? about.portraitImage : '/hero_founders.jpg'}
+                alt={brand.name || 'Prineor Founders'}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-top sm:object-center"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.tried) {
+                    target.dataset.tried = 'true';
+                    target.src = '/hero_founders.jpg';
+                  }
+                }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 via-transparent to-white/10 pointer-events-none" />
               
               <div className="absolute bottom-4 left-4 right-4 glass-panel p-3.5 rounded-2xl border border-white/90">
                 <span className="font-cinzel font-bold text-sm text-[#0F172A] block">{brand.name || 'PRINEOR'}</span>

@@ -119,7 +119,7 @@ export const initialGeneralSettings: GeneralSettingsConfig = {
   logoText: 'PRINEOR',
   faviconUrl: '',
   primaryEmail: 'prineorofficial@gmail.com',
-  phone: 'Phone — Coming Soon',
+  phone: '+92 371 5362561',
   location: 'Global / Digital',
   copyrightText: '© 2026 PRINEOR. All rights reserved.',
   seoTitle: 'PRINEOR — Digital Brand • WordPress, AI, Design & Marketing',
@@ -246,7 +246,7 @@ export const defaultCMSData: CMSData = {
   techStack: initialTech,
   contact: {
     email: 'prineorofficial@gmail.com',
-    phone: 'Phone — Coming Soon',
+    phone: '+92 371 5362561',
     location: 'Global / Digital',
     availability: 'Open for Partnerships & Projects',
     faqs: [
@@ -299,8 +299,20 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return {
           ...defaultCMSData,
           ...parsed,
-          hero: { ...defaultCMSData.hero, ...(parsed.hero || {}) },
-          brand: { ...defaultCMSData.brand, ...(parsed.brand || {}) },
+          hero: { 
+            ...defaultCMSData.hero, 
+            ...(parsed.hero || {}),
+            heroImage: (parsed.hero?.heroImage && !parsed.hero.heroImage.includes('unsplash') && !parsed.hero.heroImage.includes('photo-1534528741775'))
+              ? parsed.hero.heroImage
+              : defaultCMSData.hero.heroImage
+          },
+          brand: { 
+            ...defaultCMSData.brand, 
+            ...(parsed.brand || {}),
+            portraitImage: (parsed.brand?.portraitImage && !parsed.brand.portraitImage.includes('unsplash') && !parsed.brand.portraitImage.includes('photo-1534528741775'))
+              ? parsed.brand.portraitImage
+              : defaultCMSData.brand.portraitImage
+          },
           about: { ...initialAboutConfig, ...(parsed.about || {}) },
           hiring: { 
             ...defaultCMSData.hiring, 

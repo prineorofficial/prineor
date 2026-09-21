@@ -6,7 +6,7 @@
     "shortBio": "Prineor started in 2026 and is currently growing through continuous learning, practical projects, experimentation, and improvement. We turn ideas into meaningful digital experiences through Web Development with WordPress, AI Development, Graphic Designing, Digital Marketing, and Social Media Services.",
     "email": "prineorofficial@gmail.com",
     "location": "Global / Digital",
-    "phone": "Phone — Coming Soon",
+    "phone": "+92 371 5362561",
     "youtubeUrl": "https://www.youtube.com/@Prineorofficial",
     "tiktokUrl": "https://www.tiktok.com/@prineorofficial",
     "facebookUrl": "https://www.facebook.com/profile.php?id=61591642935337&mibextid=ZbWKwL",
@@ -17,7 +17,20 @@
       "AI Solutions",
       "Graphic Design",
       "Digital Marketing"
-    ]
+    ],
+    "portraitImage": "/hero_founders.jpg"
+  },
+  "hero": {
+    "badgeText": "STARTED IN 2026 • BUILDING & GROWING",
+    "heading": "PRINEOR",
+    "subheading": "A Growing Digital Brand • Founded in 2026",
+    "description": "Prineor started in 2026 and is currently growing through continuous learning, practical projects, experimentation, and improvement. We turn ideas into meaningful digital experiences through Web Development with WordPress, AI Development, Graphic Designing, Digital Marketing, and Social Media Services.",
+    "primaryBtnText": "Explore Projects",
+    "primaryBtnLink": "projects",
+    "secondaryBtnText": "Contact Us",
+    "secondaryBtnLink": "contact",
+    "heroImage": "/hero_founders.jpg",
+    "statusBadge": "Active Learning & Building"
   },
   "projects": [
     {

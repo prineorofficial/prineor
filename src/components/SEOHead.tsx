@@ -239,6 +239,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       'foundingDate': '2026',
       'description': description,
       'email': brand.email || settings.primaryEmail || 'prineorofficial@gmail.com',
+      'telephone': brand.phone || '+923715362561',
       'sameAs': (cmsData.socials || [])
         .filter(s => s.url)
         .map(s => s.url)

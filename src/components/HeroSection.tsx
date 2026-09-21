@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { PageTab, PersonalBrandConfig } from '../types';
 import { useCMS } from '../context/CMSContext';
@@ -9,8 +9,12 @@ import {
   Sparkles, 
   Share2, 
   Music2, 
-  Mail 
+  Mail,
+  Upload,
+  CheckCircle2,
+  Camera
 } from 'lucide-react';
+import heroPortraitWebp from '../assets/images/hero_crystal_portrait.webp';
 
 interface HeroSectionProps {
   brand?: PersonalBrandConfig;
@@ -23,9 +27,62 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   setActiveTab,
   onOpenResume,
 }) => {
-  const { cmsData } = useCMS();
+  const { cmsData, updateHero } = useCMS();
   const hero = cmsData.hero;
   const brand = propBrand || cmsData.brand;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+
+  // Show upload helper only in development / AI Studio preview environment (never on live production hostinger domain)
+  const isDevOrStudio = typeof window !== 'undefined' && (
+    window.location.hostname === 'localhost' ||
+    window.location.hostname.includes('127.0.0.1') ||
+    window.location.hostname.includes('run.app') ||
+    window.location.search.includes('upload=true')
+  );
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadSuccess(false);
+
+    try {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64Data = reader.result as string;
+        // Immediate local preview
+        setUploadedUrl(base64Data);
+
+        const res = await fetch('/api/upload-hero-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageBase64: base64Data,
+            fileName: file.name
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.url) {
+            setUploadedUrl(data.url);
+            updateHero({ heroImage: data.url });
+          }
+          setUploadSuccess(true);
+          setTimeout(() => setUploadSuccess(false), 4000);
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error('Failed to upload image:', err);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const socialIcons = [
     { 
@@ -202,35 +259,80 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           </div>
 
-          {/* Right Column: Crystal Portrait Frame */}
+            {/* Right Column: Crystal Portrait Frame */}
           <div className="lg:col-span-6 flex justify-center items-center relative">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-full max-w-[420px] lg:max-w-[480px] aspect-[4/5] rounded-[32px] p-2 sm:p-3 crystal-glow"
+              className="relative w-full max-w-[420px] lg:max-w-[480px] aspect-[9/16] sm:aspect-[4/5] rounded-[32px] p-2 sm:p-3 crystal-glow"
             >
-              {/* Glass Frame Substrate */}
-              <div className="w-full h-full rounded-[26px] overflow-hidden relative glass-panel-elevated border border-white/90 shadow-[0_20px_50px_rgba(212,158,36,0.12)]">
-                
-                {/* Portrait Image */}
-                <img
-                  src={hero.heroImage || brand.portraitImage}
-                  alt={brand.name}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
-                />
+              {/* Hidden File Input for Original Photo Upload */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+                id="hero-file-upload-input"
+              />
 
-                {/* Subtle Translucent Crystal Facet Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/30 via-transparent to-white/20 pointer-events-none" />
+              {/* Glass Frame Substrate */}
+              <div className="w-full h-full rounded-[26px] overflow-hidden relative glass-panel-elevated border border-white/90 shadow-[0_20px_50px_rgba(212,158,36,0.15)] bg-[#0B0F19]">
                 
-                {/* Geometric Prism Light Angle Accent */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/60 via-white/10 to-transparent pointer-events-none transform rotate-12" />
+                {/* 1-Click Upload Original Photo Button (Studio / Dev only, hidden on live production) */}
+                {isDevOrStudio && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Upload your exact original photo (0% alteration, pixel-perfect)"
+                    className="absolute top-3.5 right-3.5 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 hover:bg-black/95 backdrop-blur-md text-white border border-amber-400/40 text-[11px] font-semibold transition-all shadow-xl hover:scale-105 active:scale-95 group cursor-pointer"
+                  >
+                    {uploadSuccess ? (
+                      <>
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-300">Exact Photo Applied!</span>
+                      </>
+                    ) : isUploading ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+                        <span>Applying...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Camera className="w-3.5 h-3.5 text-[#E6B942] group-hover:rotate-12 transition-transform" />
+                        <span className="tracking-tight">Upload Original Photo</span>
+                      </>
+                    )}
+                  </button>
+                )}
+
+                {/* Portrait Image (Zero Alteration, Exact Original Colors) */}
+                <img
+                  id="hero-founders-portrait"
+                  src={uploadedUrl || (hero.heroImage && !hero.heroImage.includes('unsplash') ? hero.heroImage : '/hero_founders.jpg')}
+                  alt={brand.name || 'PRINEOR Founders'}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-top sm:object-center transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.tried1) {
+                      target.dataset.tried1 = 'true';
+                      target.src = '/hero_founders.jpg';
+                    } else if (!target.dataset.tried2) {
+                      target.dataset.tried2 = 'true';
+                      target.src = '/hero_founders.webp';
+                    } else if (!target.dataset.tried3) {
+                      target.dataset.tried3 = 'true';
+                      target.src = heroPortraitWebp;
+                    }
+                  }}
+                />
 
                 {/* Floating Gold Monogram Seal Badge */}
                 <div className="absolute bottom-4 right-4 z-20">
                   <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-[#A87915] via-[#E6B942] to-[#F5D372] p-[2px] shadow-[0_8px_20px_rgba(212,158,36,0.4)] animate-spin-slow">
-                    <div className="w-full h-full rounded-full bg-white/85 backdrop-blur-md flex flex-col items-center justify-center p-1 border border-white/80">
+                    <div className="w-full h-full rounded-full bg-white/90 backdrop-blur-md flex flex-col items-center justify-center p-1 border border-white/80">
                       <span className="font-cinzel font-black text-xs sm:text-sm text-[#A87915]">
                         {brand.initials}
                       </span>
@@ -241,8 +343,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Decorative Diamond Corner Accent */}
-                <div className="absolute top-4 left-4 glass-pill px-3 py-1 text-[11px] font-semibold text-[#0F172A] border border-white/90 shadow-sm flex items-center gap-1.5">
+                {/* Decorative Pill */}
+                <div className="absolute top-4 left-4 glass-pill px-3 py-1 text-[11px] font-semibold text-[#0F172A] border border-white/90 shadow-sm flex items-center gap-1.5 z-20">
                   <Sparkles className="w-3 h-3 text-[#D49E24]" />
                   <span>Prineor Brand</span>
                 </div>

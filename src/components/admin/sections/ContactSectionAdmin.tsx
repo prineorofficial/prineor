@@ -214,11 +214,11 @@ export const ContactSectionAdmin: React.FC = () => {
               type="text"
               value={form.phone}
               onChange={(e) => handleChange('phone', e.target.value)}
-              placeholder="Phone — Coming Soon"
+              placeholder="+92 371 5362561"
               className="w-full px-3.5 py-2.5 rounded-xl glass-pill bg-white/70 border border-white/90 text-xs text-[#0F172A] focus:ring-2 focus:ring-[#D49E24]/50"
             />
             <span className="text-[10px] text-[#94A3B8] mt-1 block">
-              Default: "Phone — Coming Soon" (Do not invent numbers)
+              Official: +92 371 5362561 (Direct Line & WhatsApp)
             </span>
           </div>
         </div>
