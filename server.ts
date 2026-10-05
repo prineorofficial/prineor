@@ -1346,7 +1346,7 @@ function getProductionBaseUrl(req: Request): string {
     return process.env.APP_URL.replace(/\/+$/, '');
   }
   const host = (req.headers['x-forwarded-host'] as string) || req.headers.host;
-  if (host && (host.includes('prineor.com') || host.includes('prineorofficial.com'))) {
+  if (host && host.includes('prineor.com')) {
     const protocol = (req.headers['x-forwarded-proto'] as string) || (req.secure ? 'https' : 'http');
     return `${protocol}://${host}`;
   }
