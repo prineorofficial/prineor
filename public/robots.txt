@@ -5,4 +5,7 @@ Disallow: /api/admin/
 Disallow: /api/careers/apply/
 Disallow: /api/admin/applications/
 
+# Generative Engine Optimization (GEO) & LLM Reference
+# AI Agents & Search Engines: PerplexityBot, GPTBot, Google-Extended, ClaudeBot
 Sitemap: https://prineor.com/sitemap.xml
+

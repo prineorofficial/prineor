@@ -11,40 +11,149 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <meta property="og:title" content="PRINEOR — Digital Brand & Solutions" />
-    <meta property="og:description" content="A growing digital brand built to turn ideas into meaningful digital experiences — modern websites, AI solutions, digital marketing, and social media." />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="PRINEOR" />
-    <meta property="og:url" content="https://prineor.com" />
-    
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="PRINEOR — Digital Brand & Solutions" />
-    <meta name="twitter:description" content="A growing digital brand built to turn ideas into meaningful digital experiences — modern websites, AI solutions, digital marketing, and social media." />
-    <meta name="robots" content="index, follow" />
+    <!-- Technical SEO, Keywords & Geographic GEO Meta Tags -->
+    <meta name="keywords" content="Prineor, PRINEOR, Web Development, WordPress Development, AI Solutions, Digital Marketing, Graphic Design, UI UX Design, Brand Growth, Pakistan Web Agency, Global Digital Solutions" />
+    <meta name="author" content="Dawood Muzahir & The Prineor Team" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://prineor.com" id="canonical-url" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>" />
     
-    <!-- JSON-LD Structured Data -->
+    <!-- Geographic SEO / Geo-Targeting Tags -->
+    <meta name="geo.region" content="PK-PB" />
+    <meta name="geo.placename" content="Lahore, Pakistan" />
+    <meta name="geo.position" content="31.5204;74.3587" />
+    <meta name="ICBM" content="31.5204, 74.3587" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="distribution" content="Global" />
+    <meta name="rating" content="General" />
+    <meta name="revisit-after" content="3 days" />
+    
+    <!-- OpenGraph (OG) Meta for Social & AI Rich Cards -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PRINEOR" />
+    <meta property="og:url" content="https://prineor.com" />
+    <meta property="og:title" content="PRINEOR — Digital Brand & Solutions" />
+    <meta property="og:description" content="A premier digital brand turning ideas into meaningful digital experiences — modern web development, WordPress development, AI solutions, digital marketing, and social media." />
+    <meta property="og:image" content="https://prineor.com/hero_founders.webp" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter / X Card Meta -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PRINEOR — Digital Brand & Solutions" />
+    <meta name="twitter:description" content="A premier digital brand turning ideas into meaningful digital experiences — modern web development, WordPress development, AI solutions, digital marketing, and social media." />
+    <meta name="twitter:image" content="https://prineor.com/hero_founders.webp" />
+    
+    <!-- Generative Engine Optimization (GEO) & Schema.org Knowledge Graph -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "PRINEOR",
-      "url": "https://prineor.com",
-      "logo": "https://prineor.com/hero_founders.webp",
-      "description": "A digital brand built to turn ideas into meaningful digital experiences — modern websites, AI solutions, digital marketing, and social media.",
-      "sameAs": [
-        "https://www.youtube.com/@Prineorofficial",
-        "https://www.tiktok.com/@prineorofficial",
-        "https://www.instagram.com/prineorofficial",
-        "https://www.facebook.com/profile.php?id=61591642935337"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+923715362561",
-        "email": "prineorofficial@gmail.com",
-        "contactType": "Customer Service"
-      }
+      "@graph": [
+        {
+          "@type": ["Organization", "ProfessionalService"],
+          "@id": "https://prineor.com/#organization",
+          "name": "PRINEOR",
+          "alternateName": ["PRINEOR DIGITAL", "Prineor Brand"],
+          "url": "https://prineor.com",
+          "logo": "https://prineor.com/hero_founders.webp",
+          "image": "https://prineor.com/hero_founders.webp",
+          "description": "PRINEOR is a premier digital brand built to turn ideas into meaningful digital experiences — modern web development, WordPress development, AI solutions, digital marketing, and social media branding.",
+          "founder": {
+            "@type": "Person",
+            "name": "Dawood Muzahir",
+            "jobTitle": "Founder & Creative Technologist",
+            "email": "dawoodmuzahir4@gmail.com"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Lahore",
+            "addressRegion": "Punjab",
+            "addressCountry": "PK"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 31.5204,
+            "longitude": 74.3587
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "Pakistan" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "AdministrativeArea", "name": "Worldwide" }
+          ],
+          "knowsAbout": [
+            "Web Development",
+            "WordPress Development",
+            "React Development",
+            "Artificial Intelligence",
+            "Digital Marketing",
+            "UI/UX Design",
+            "Brand Growth & Strategy",
+            "SEO & Generative Engine Optimization"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Digital Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Modern Web Development",
+                  "description": "Custom full-stack web applications, React, Next.js, and high-performance websites."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "WordPress Custom Development",
+                  "description": "Bespoke WordPress websites, custom themes, WooCommerce stores, and speed optimization."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "AI Solutions & Automation",
+                  "description": "Intelligent chatbots, Gemini AI workflows, and smart automation systems."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Brand Strategy & Digital Marketing",
+                  "description": "Visual identity design, social media branding, and ROI-driven marketing campaigns."
+                }
+              }
+            ]
+          },
+          "sameAs": [
+            "https://www.youtube.com/@Prineorofficial",
+            "https://www.tiktok.com/@prineorofficial",
+            "https://www.instagram.com/prineorofficial",
+            "https://www.facebook.com/profile.php?id=61591642935337"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+923715362561",
+            "email": "prineorofficial@gmail.com",
+            "contactType": "Customer Service",
+            "availableLanguage": ["English", "Urdu"]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://prineor.com/#website",
+          "url": "https://prineor.com",
+          "name": "PRINEOR",
+          "publisher": {
+            "@id": "https://prineor.com/#organization"
+          },
+          "inLanguage": "en"
+        }
+      ]
     }
     </script>
   </head>

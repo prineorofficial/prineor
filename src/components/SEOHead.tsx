@@ -185,12 +185,21 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       element.setAttribute('href', href);
     };
 
-    // 4. Update Standard Search Engine Meta
+    // 4. Update Standard Search Engine & Geographic GEO Meta
     setMetaTag('name', 'description', description);
     setMetaTag('name', 'keywords', keywords);
     setMetaTag('name', 'author', defaultAuthor);
     setMetaTag('name', 'robots', robots);
     setLinkTag('canonical', currentUrl);
+    
+    // Geographic SEO & Global Targeting
+    setMetaTag('name', 'geo.region', 'PK-PB');
+    setMetaTag('name', 'geo.placename', 'Lahore, Pakistan');
+    setMetaTag('name', 'geo.position', '31.5204;74.3587');
+    setMetaTag('name', 'ICBM', '31.5204, 74.3587');
+    setMetaTag('name', 'coverage', 'Worldwide');
+    setMetaTag('name', 'distribution', 'Global');
+
     if (settings.googleSiteVerification) {
       setMetaTag('name', 'google-site-verification', settings.googleSiteVerification);
     }
@@ -235,14 +244,40 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     };
 
     const organizationSchema = {
-      '@type': 'Organization',
+      '@type': ['Organization', 'ProfessionalService'],
       'name': siteName,
+      'alternateName': ['PRINEOR DIGITAL', 'Prineor Brand'],
       'url': canonicalBase,
       'logo': defaultSocialImage,
       'foundingDate': '2026',
       'description': description,
       'email': brand.email || settings.primaryEmail || 'prineorofficial@gmail.com',
       'telephone': brand.phone || '+923715362561',
+      'address': {
+        '@type': 'PostalAddress',
+        'addressLocality': 'Lahore',
+        'addressRegion': 'Punjab',
+        'addressCountry': 'PK'
+      },
+      'geo': {
+        '@type': 'GeoCoordinates',
+        'latitude': 31.5204,
+        'longitude': 74.3587
+      },
+      'areaServed': [
+        'Pakistan',
+        'United States',
+        'United Kingdom',
+        'United Arab Emirates',
+        'Worldwide'
+      ],
+      'knowsAbout': [
+        'Web Development',
+        'WordPress Development',
+        'AI Solutions',
+        'UI/UX Design',
+        'Digital Marketing'
+      ],
       'sameAs': (cmsData.socials || [])
         .filter(s => s.url)
         .map(s => s.url)

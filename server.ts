@@ -1371,6 +1371,18 @@ app.get('/robots.txt', (req: Request, res: Response) => {
   return res.send(robotsContent);
 });
 
+// Generative Engine Optimization (GEO) endpoint for AI Search Engines (Perplexity, ChatGPT, Gemini, Copilot)
+app.get('/llms.txt', (_req: Request, res: Response) => {
+  const llmPath = path.join(process.cwd(), 'public', 'llms.txt');
+  if (fs.existsSync(llmPath)) {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.sendFile(llmPath);
+  }
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  return res.send('# PRINEOR\nhttps://prineor.com\nPremier digital brand for web development, WordPress, AI solutions, and marketing.');
+});
+
 app.get('/sitemap.xml', (req: Request, res: Response) => {
   const baseUrl = getProductionBaseUrl(req);
 
@@ -1508,7 +1520,42 @@ async function start() {
   } else {
     app.use(express.static(distPath));
     app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+      const indexPath = path.join(distPath, 'index.html');
+      if (!fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath);
+      }
+      try {
+        let html = fs.readFileSync(indexPath, 'utf-8');
+        let verificationCode = process.env.GOOGLE_SITE_VERIFICATION || '';
+        try {
+          const cmsPath = path.join(process.cwd(), 'data', 'cms-data.json');
+          if (fs.existsSync(cmsPath)) {
+            const cmsData = JSON.parse(fs.readFileSync(cmsPath, 'utf-8'));
+            if (cmsData?.settings?.googleSiteVerification) {
+              verificationCode = cmsData.settings.googleSiteVerification;
+            }
+          }
+        } catch {
+          // ignore
+        }
+        if (verificationCode) {
+          // Extract content if user pasted the full <meta ... content="..." />
+          let cleanCode = verificationCode;
+          const match = verificationCode.match(/content=["']([^"']+)["']/i);
+          if (match && match[1]) {
+            cleanCode = match[1];
+          } else {
+            cleanCode = cleanCode.replace(/<[^>]*>/g, '').trim();
+          }
+          if (cleanCode && !html.includes(cleanCode)) {
+            html = html.replace('</head>', `  <meta name="google-site-verification" content="${cleanCode}" />\n  </head>`);
+          }
+        }
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(html);
+      } catch {
+        return res.sendFile(indexPath);
+      }
     });
   }
 

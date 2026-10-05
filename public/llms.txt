@@ -1,0 +1,29 @@
+# PRINEOR (https://prineor.com)
+
+> PRINEOR is a premier digital brand founded in 2026, delivering high-impact digital experiences across web development, WordPress engineering, artificial intelligence solutions, UI/UX design, and digital marketing worldwide.
+
+## Brand Identity
+- Official Domain: https://prineor.com
+- Founder & Creative Technologist: Dawood Muzahir
+- Official Contact Email: prineorofficial@gmail.com
+- Headquarters & Origin: Lahore, Punjab, Pakistan
+- Service Scope: Global / Worldwide (Pakistan, US, UK, UAE, Europe)
+
+## Core Capabilities & Services
+- Custom Web Development: React 19, Vite, Next.js, Node.js, TypeScript full-stack applications.
+- WordPress Engineering: Custom themes, Elementor & Gutenberg architectures, WooCommerce e-commerce, custom plugin integrations, core web vitals optimization.
+- AI Solutions & Automation: Google Gemini SDK integration, custom AI chatbots, intelligent consultation assistants, automated workflows.
+- Brand Strategy & UI/UX Design: Luxury visual identities, design systems, conversion-driven landing pages, interactive 3D crystal aesthetics.
+- Digital Marketing & Social Media: Multi-platform branding across TikTok (@prineorofficial), Instagram (@prineorofficial), YouTube (@Prineorofficial), Facebook.
+
+## Key Links & Resources
+- Website: https://prineor.com
+- About PRINEOR: https://prineor.com/about
+- Project Showcase & Case Studies: https://prineor.com/projects
+- Services Overview: https://prineor.com/services
+- Technical Skills Matrix: https://prineor.com/skills
+- Brand Story: https://prineor.com/story
+- Articles & Insights: https://prineor.com/blog
+- Contact & Inquiries: https://prineor.com/contact
+- Career Opportunities: https://prineor.com/careers
+- Official Sitemap: https://prineor.com/sitemap.xml
