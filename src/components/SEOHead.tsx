@@ -191,6 +191,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     setMetaTag('name', 'author', defaultAuthor);
     setMetaTag('name', 'robots', robots);
     setLinkTag('canonical', currentUrl);
+    if (settings.googleSiteVerification) {
+      setMetaTag('name', 'google-site-verification', settings.googleSiteVerification);
+    }
 
     // 5. Update Favicon if custom favicon specified
     if (settings.faviconUrl) {

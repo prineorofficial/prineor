@@ -32,7 +32,7 @@ export const BrandCustomizerDrawer: React.FC<BrandCustomizerDrawerProps> = ({ br
     {
       name: 'PRINEOR DIGITAL',
       initials: 'PD',
-      email: 'contact@prineor.com',
+      email: 'prineorofficial@gmail.com',
       phone: '+1 (555) 019-2834',
       location: 'Global / Remote',
       roles: ['Web Development with WordPress', 'AI Solutions', 'Social Media Growth', 'Digital Marketing']

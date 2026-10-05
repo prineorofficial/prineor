@@ -356,6 +356,7 @@ export interface GeneralSettingsConfig {
   author?: string;
   robots?: 'index, follow' | 'noindex, nofollow' | 'index, nofollow' | 'noindex, follow' | string;
   googleAnalyticsId?: string;
+  googleSiteVerification?: string;
   defaultCtaText: string;
   pageSeo?: {
     home?: PageSEOItem;

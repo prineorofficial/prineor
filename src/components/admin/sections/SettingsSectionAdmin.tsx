@@ -606,6 +606,36 @@ export const SettingsSectionAdmin: React.FC = () => {
               </div>
             </div>
 
+            {/* Google Search Console Verification Meta Tag */}
+            <div className="pt-2 border-t border-slate-100">
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-[#475569] flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#D49E24]" />
+                  Google Search Console Verification Token / Tag
+                </label>
+                <span className="text-[10px] text-slate-500">
+                  Auto-injected into HTML &lt;head&gt;
+                </span>
+              </div>
+              <input
+                type="text"
+                value={form.googleSiteVerification || ''}
+                onChange={(e) => {
+                  let val = e.target.value;
+                  const match = val.match(/content=["']([^"']+)["']/i);
+                  if (match && match[1]) {
+                    val = match[1];
+                  }
+                  handleChange('googleSiteVerification', val.trim());
+                }}
+                placeholder="Paste token (e.g. AbCd123...) or full <meta name='google-site-verification' content='...' />"
+                className="w-full px-3.5 py-2.5 rounded-xl glass-pill bg-slate-50 border border-slate-200 text-xs font-mono text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#D49E24]/50"
+              />
+              <p className="text-[11px] text-slate-500 mt-1">
+                Used for instant Google Search Console site verification for <span className="font-semibold text-slate-700">https://prineor.com</span>.
+              </p>
+            </div>
+
           </div>
         </div>
       )}
@@ -1111,6 +1141,39 @@ export const SettingsSectionAdmin: React.FC = () => {
               </div>
             </div>
 
+          </div>
+
+          {/* Google Search Console & Subdomains Info Card */}
+          <div className="p-5 rounded-2xl bg-[#0F172A] text-white space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#E5B842] animate-pulse"></span>
+              <h4 className="font-bold text-sm text-[#F8FAFC]">Google Search Console & Subdomains Integration</h4>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed">
+              To verify and index <strong className="text-[#E5B842]">prineor.com</strong> along with all current and future subdomains (e.g. <code className="text-[#F8FAFC] bg-slate-800 px-1 py-0.5 rounded">*.prineor.com</code>):
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-700/60 space-y-1.5">
+                <span className="font-bold text-[#E5B842] block">Method 1: Domain Property (Recommended)</span>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  In Google Search Console, choose <strong>"Domain"</strong> and enter <code className="text-[#F8FAFC]">prineor.com</code>. Add the provided DNS TXT record in your Hostinger DNS Zone. This automatically covers all subdomains!
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-700/60 space-y-1.5">
+                <span className="font-bold text-[#E5B842] block">Method 2: URL Prefix + HTML Tag</span>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  Choose <strong>"URL prefix"</strong> (<code className="text-[#F8FAFC]">https://prineor.com</code>), select <strong>HTML Tag</strong>, and paste the code into the <em>Google Search Console Verification</em> field in the General SEO tab!
+                </p>
+              </div>
+            </div>
+
+            <div className="text-[11px] text-slate-400 border-t border-slate-800 pt-2 flex flex-wrap items-center justify-between gap-2">
+              <span>Sitemap to submit in Search Console: <strong className="text-slate-200">https://prineor.com/sitemap.xml</strong></span>
+              <span className="text-[#E5B842]">Subdomain routing & CORS: Active</span>
+            </div>
           </div>
 
         </div>

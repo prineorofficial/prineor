@@ -138,12 +138,14 @@ export const initialGeneralSettings: GeneralSettingsConfig = {
   metaTitle: 'PRINEOR — Growing Digital Brand | Web & AI Development',
   metaDescription: 'Prineor is a growing digital brand founded in 2026. Turning ideas into meaningful digital experiences through WordPress Web Development, AI Development, Graphic Design, and Digital Marketing.',
   metaKeywords: 'Prineor, Web Development, WordPress Development, AI Development, Digital Marketing, Graphic Design, UI UX Design, Brand Growth',
+  siteUrl: 'https://prineor.com',
   canonicalUrl: 'https://prineor.com',
   ogImage: ASSETS.heroPortrait,
   twitterHandle: '@Prineorofficial',
   author: 'Prineor Founders',
   robots: 'index, follow',
   googleAnalyticsId: '',
+  googleSiteVerification: '',
   defaultCtaText: 'Become Our Partner',
   pageSeo: {
     home: {

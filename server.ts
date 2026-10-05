@@ -1346,7 +1346,7 @@ function getProductionBaseUrl(req: Request): string {
     return process.env.APP_URL.replace(/\/+$/, '');
   }
   const host = (req.headers['x-forwarded-host'] as string) || req.headers.host;
-  if (host && host.includes('prineor.com')) {
+  if (host && (host.includes('prineor.com') || host.includes('prineorofficial.com'))) {
     const protocol = (req.headers['x-forwarded-proto'] as string) || (req.secure ? 'https' : 'http');
     return `${protocol}://${host}`;
   }
@@ -1450,6 +1450,23 @@ app.get('/sitemap.xml', (req: Request, res: Response) => {
 
   res.setHeader('Content-Type', 'application/xml');
   return res.send(xml);
+});
+
+// Support Google Search Console HTML File Verification (e.g. /google1234567890abcdef.html)
+app.get('/google:code.html', (req: Request, res: Response) => {
+  const filename = `google${req.params.code}.html`;
+  const candidatePaths = [
+    path.join(process.cwd(), 'public', filename),
+    path.join(process.cwd(), 'dist', filename),
+    path.join(process.cwd(), filename)
+  ];
+  for (const p of candidatePaths) {
+    if (fs.existsSync(p)) {
+      return res.sendFile(p);
+    }
+  }
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  return res.send(`google-site-verification: google${req.params.code}.html`);
 });
 
 // -------------------------------------------------------------

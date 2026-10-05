@@ -2,6 +2,7 @@
 
 ## 1. Project Overview & Identity
 - **Brand Name**: PRINEOR
+- **Official Domain**: `https://prineor.com` (Subdomain support: `*.prineor.com`)
 - **Tagline / Purpose**: A premier digital brand built to turn ideas into meaningful digital experiences — modern web development, AI solutions, digital marketing, and social media branding.
 - **Brand Contact / Owner**: `prineorofficial@gmail.com`
 - **Live Hosting Environment**: Hostinger Web Apps (Node.js) via GitHub continuous deployment.
